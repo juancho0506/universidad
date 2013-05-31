@@ -105,13 +105,16 @@ class CarPoolingServices {
 		array_push($queue, $start);
 
 		while (sizeof($queue) != 0) {
+			//Nodo a visitar
 			$v = array_shift($queue);
 			$v->setVisited(true);
 			foreach ($v->getEdges() as $e) {
 				$temp = $e->getTo();
+				echo '<br/>Evaluando: temp=' , $temp->getName() , ' v=', $v->getName();
 				if ($temp->getVisited() == false) {
 					array_push($queue, $temp);
 					echo '<br/>Evaluando: temp=' , $temp->getName() , ' v=', $v->getName() , ' valores: ' , $temp->getDistance() , '-' , ($v->getDistance() + $e->getLength()) , '<br/>';
+					//Revisamos que no tenga los vertices con la distancia por defecto....
 					if($temp->getDistance()==0){
 						$temp->setDistance($v->getDistance() + $e->getLength());
 						echo '<br/>Distancia asignada : ' . $temp->getDistance();
@@ -122,11 +125,17 @@ class CarPoolingServices {
 							array_push($this->visitadosDijkstra, $temp);
 							echo '<br/>entra al if....';
 							echo '<br/>Distancia asignada : ' . $temp->getDistance();
-						}else{
-							echo '<br/>no entra al if...';
 						}
 					}					
 					
+				}else{
+					if ($temp->getDistance() > ($v->getDistance() + $e->getLength())) {
+						$temp->setDistance($v->getDistance() + $e->getLength());
+						//array_push($this->visitadosDijkstra, $temp);
+						array_push($queue, $temp);
+						echo '<br/>entra al if segundo....';
+						echo '<br/>Distancia asignada : ' . $temp->getDistance();
+					}
 				}
 			}
 			

@@ -31,7 +31,7 @@ require_once '../php/services/CarPoolingServices.php';
 				  //echo 'Buscando el nodo a.. <br/>';
 				  var_dump($service->getVertexByName('d'));
 				  echo 'Ejecutando Dijkstra.. <br/>';
-				  $service->calcularRutaOptima('a', 'e', null);
+				  $service->calcularRutaOptima('c', 'e', null);
 				  //echo 'Estado del grafo despues de Dijkstra <br/>';
 				  //var_dump($service->getMap());
 				  
