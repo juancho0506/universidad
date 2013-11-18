@@ -14,7 +14,7 @@ require_once '../php/services/CarPoolingServices.php';
 	<header>
 		<nav>
 			<ul>
-				<li>Tu Ruta</li>
+				<li>TusRuta</li>
 			</ul>
 		</nav>
 	</header>
