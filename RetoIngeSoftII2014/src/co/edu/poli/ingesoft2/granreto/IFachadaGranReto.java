@@ -9,4 +9,6 @@ package co.edu.poli.ingesoft2.granreto;
  */
 public interface IFachadaGranReto {
 
+	public void cargarArchivo( String rutaArchivo ) throws GranRetoException;
+	
 }
