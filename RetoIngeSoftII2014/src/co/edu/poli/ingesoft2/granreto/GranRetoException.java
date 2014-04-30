@@ -4,8 +4,8 @@
 package co.edu.poli.ingesoft2.granreto;
 
 /**
- * @author Rodrigo
- *
+ * @author Luis Castillo
+ * Clase para manejo de las excepciones de la aplicación del Gran Reto.
  */
 public class GranRetoException extends Exception {
 
