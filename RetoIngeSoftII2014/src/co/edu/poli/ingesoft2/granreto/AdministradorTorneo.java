@@ -25,9 +25,26 @@ public class AdministradorTorneo {
 	private Map<String, Equipo> equipos = new HashMap<String, Equipo>();
 	
 	
+	public void registrarPartido(String[] partido) throws GranRetoException{
+		Partido nuevo = new Partido();
+		nuevo.setLocal(partido[0]);
+		nuevo.setMarcadorLocal(Integer.parseInt(partido[1]));
+		nuevo.setVisitante(partido[2]);
+		nuevo.setMarcadorVisitante(Integer.parseInt(partido[3]));
+		
+		this.registrarPartido(nuevo);
+	}
 	
-	public void registrarPartido(Partido partido) throws GranRetoException{
-		partidos.put(partido.getLocal()+this.KEY_SEPARATOR+partido.getVisitante(), partido);
+	private void registrarPartido(Partido partido) throws GranRetoException{
+		partidos.put(partido.getLocal()+KEY_SEPARATOR+partido.getVisitante(), partido);
+	}
+	
+	public void imprimirPartidosRegistrados(){
+		System.out.println("*** Partidos Actuales:   ****");
+		for (Partido partido : partidos.values()) {
+			System.out.println("* " + partido.getLocal()+" vs " + partido.getVisitante()+
+					" : "+partido.getMarcadorLocal()+ "-" + partido.getMarcadorVisitante());
+		}
 	}
 	
 	public void generarResultadosEquipos(){

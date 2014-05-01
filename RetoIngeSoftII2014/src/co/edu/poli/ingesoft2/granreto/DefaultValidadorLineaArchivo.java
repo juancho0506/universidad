@@ -15,7 +15,7 @@ public class DefaultValidadorLineaArchivo implements IValidadorLineaArchivo{
 	@Override
 	public boolean validarLinea(String linea) throws GranRetoException {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	
