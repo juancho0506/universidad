@@ -9,9 +9,9 @@ package co.edu.poli.ingesoft2.granreto;
  */
 public class Partido {
 	
-	private String local;
+	private Equipo local;
 	
-	private String visitante;
+	private Equipo visitante;
 	
 	private int marcadorLocal;
 	
@@ -20,28 +20,28 @@ public class Partido {
 	/**
 	 * @return the local
 	 */
-	public String getLocal() {
+	public Equipo getLocal() {
 		return local;
 	}
 
 	/**
 	 * @param local the local to set
 	 */
-	public void setLocal(String local) {
+	public void setLocal(Equipo local) {
 		this.local = local;
 	}
 
 	/**
 	 * @return the visitante
 	 */
-	public String getVisitante() {
+	public Equipo getVisitante() {
 		return visitante;
 	}
 
 	/**
 	 * @param visitante the visitante to set
 	 */
-	public void setVisitante(String visitante) {
+	public void setVisitante(Equipo visitante) {
 		this.visitante = visitante;
 	}
 

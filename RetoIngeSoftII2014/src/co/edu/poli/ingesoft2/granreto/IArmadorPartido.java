@@ -21,4 +21,14 @@ public interface IArmadorPartido {
 	 * 			<b>false</b> si el dato nó es valido en esa posición.
 	 */
 	boolean validarDatoPosicion(String dato, int pos);
+	
+	/**
+	 * Calcula y arma los equipos dado un partido, con esto devuelve un
+	 * partido con los puntajes actualizados para cada uno de los equipos.
+	 * @param p El partido usado para sacar los resultados.
+	 * @param local equipo local con los resultados anteriores al partido p.
+	 * @param visitante El equipo visitante con los resultados anteriores al partido p.
+	 * @return El partido con los equipos actualizados.
+	 */
+	Partido armarEquipos(Partido p, Equipo local, Equipo visitante) throws GranRetoException;
 }

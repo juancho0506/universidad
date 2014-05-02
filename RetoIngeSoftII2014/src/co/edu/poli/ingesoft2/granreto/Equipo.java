@@ -9,7 +9,7 @@ package co.edu.poli.ingesoft2.granreto;
  */
 public class Equipo {
 
-	private String nombre = "Equipo Sin Nombre";
+	private String nombre = "Equipo sin Nombre";
 	
 	private int puntos = 0;
 	
@@ -24,6 +24,14 @@ public class Equipo {
 	private int golesFavor = 0;
 	
 	private int golesContra = 0;
+	
+	/**
+	 * Constructor por nombre de equipo.
+	 * @param nombre el nombre del equipo a crear.
+	 */
+	public Equipo(String nombre){
+		this.nombre = nombre;
+	}
 
 	/**
 	 * @return the nombre

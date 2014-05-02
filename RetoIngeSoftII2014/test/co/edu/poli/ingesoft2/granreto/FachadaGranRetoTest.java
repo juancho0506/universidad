@@ -34,7 +34,7 @@ public class FachadaGranRetoTest {
 	 */
 	@Test
 	public void testCargarArchivo() {
-		String rutaArchivo = "files/prueba1.txt";
+		String rutaArchivo = "files/casoBase.txt";
 		FachadaGranReto f = new FachadaGranReto();
 		try {
 			f.cargarArchivo(rutaArchivo);

@@ -52,7 +52,8 @@ public class FachadaGranReto implements IFachadaGranReto {
 						try {
 							administrador.registrarPartido(datosPartido);
 						} catch (GranRetoException e) {
-							throw new GranRetoException("Error al registrar el partido! Ultima línea procesada: "+contLinea);
+							throw new GranRetoException("Error al registrar el partido! Ultima línea procesada: "+contLinea+"\n"+
+									"Causa: " + e.getMessage());
 						}
 						datosPartido = new String[4];
 					}
@@ -76,11 +77,9 @@ public class FachadaGranReto implements IFachadaGranReto {
 					throw new GranRetoException("Error al registrar el partido! Ultima línea procesada: "+contLinea);
 				}
 				datosPartido = new String[4];
-			}
+			}			
 			
-			//Imprimir resultados:
-			administrador.imprimirPartidosRegistrados();
-			
+			System.out.println(this.obtenerTabla());
 			
 		} catch (IOException e) {
 			throw new GranRetoException("Error de lectura del archivo: "+
@@ -103,10 +102,7 @@ public class FachadaGranReto implements IFachadaGranReto {
 	 */
 	@Override
 	public String obtenerTabla() throws GranRetoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
+		return administrador.generarTablaResultados();
+	}	
 	
 }
