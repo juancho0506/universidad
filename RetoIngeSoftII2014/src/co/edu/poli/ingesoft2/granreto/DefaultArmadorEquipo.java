@@ -3,6 +3,10 @@
  */
 package co.edu.poli.ingesoft2.granreto;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Luis Castillo
  *
@@ -80,5 +84,94 @@ public class DefaultArmadorEquipo implements IArmadorPartido {
 		p.setVisitante(visitante);
 		return p;
 	}
+
+	/* (non-Javadoc)
+	 * @see co.edu.poli.ingesoft2.granreto.IArmadorPartido#ordenarEquipos(java.util.Map)
+	 */
+	@Override
+	public List<Equipo> ordenarEquipos(Map<String, Equipo> equipos)
+			throws GranRetoException {
+		
+		List<Equipo> actuales = null;
+		//List<Equipo> consultados = new ArrayList<Equipo>();
+		List<Equipo> ordenados = new ArrayList<Equipo>();
+		if(equipos!=null){
+			actuales = new ArrayList<Equipo>(equipos.values());
+			//consultados = new ArrayList<Equipo>(actuales);
+		}		
+		
+		//Se recorre la lista de actuales para evaluarlos.
+		Equipo mayor = null;
+		if(actuales!=null){
+			if(actuales.size()>0){
+				mayor = actuales.get(0);
+				for(int i=0;i<actuales.size();i++){
+					if(!ordenados.contains(actuales.get(i))){
+						mayor = actuales.get(i);
+					}
+					//System.out.println("El mayor valor es: " + mayor.getNombre()+"-"+mayor.getPuntos());
+					for(int j=0;j<actuales.size();j++){
+						if(!ordenados.contains(actuales.get(j))){ //Si ya fue ordenado saltelo.
+							//OJO esta validación ocurre sólo cuando queda el último elemento que no se puede
+							//comparar con el mismo.
+							if(actuales.size()-ordenados.size()==1){
+								mayor = actuales.get(j);
+							}else{
+								//Si es el mismo equipo no se debe validar nada...
+								if(!(actuales.get(j).getNombre().equals(mayor.getNombre()))){
+									if(actuales.get(j).getPuntos()>mayor.getPuntos()){ //Si es mayor remplace el mayor anterior.
+										mayor=actuales.get(j);
+									}else if(actuales.get(j).getPuntos()==mayor.getPuntos()){//Si estan iguales en puntaje hay que desempatar.
+										//se decide el desempate de los equipos..
+										mayor=this.decidirDesempate(actuales.get(j), mayor);
+									}
+								}								
+							}							
+						}
+					}
+					
+					ordenados.add(mayor);
+				}
+			}			
+		}		
+		
+		
+		return ordenados;
+	}
+
+	/* (non-Javadoc)
+	 * @see co.edu.poli.ingesoft2.granreto.IArmadorPartido#decidirDesempate(co.edu.poli.ingesoft2.granreto.Equipo, co.edu.poli.ingesoft2.granreto.Equipo)
+	 */
+	@Override
+	public Equipo decidirDesempate(Equipo a, Equipo b) throws GranRetoException {
+
+		//Se valida por mayor diferencia de goles.
+		int difEquipoA = a.getGolesFavor()-a.getGolesContra();
+		int difEquipoB = b.getGolesFavor()-b.getGolesContra();
+		
+		if(difEquipoA>difEquipoB){
+			return a;
+		}else if(difEquipoB>difEquipoA){
+			return b;
+		}else{ //igual diferencia de goles
+			//Mayor partidos ganados..
+			if(a.getPartidosGanados()>b.getPartidosGanados()){
+				return a;
+			}else if(b.getPartidosGanados()>a.getPartidosGanados()){
+				return b;
+			}else{
+				//Numero total de goles a favor..
+				if(a.getGolesFavor()>b.getGolesFavor()){
+					return a;
+				}else if(b.getGolesFavor()>a.getGolesFavor()){
+					return b;
+				}
+			}
+		}
+		
+		return a;
+	}
+	
+	
 
 }

@@ -144,4 +144,19 @@ public class Equipo {
 	public void setGolesContra(int golesContra) {
 		this.golesContra = golesContra;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		Equipo temp = (Equipo) obj;
+		if(this.getNombre().equals(temp.getNombre())){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	
 }

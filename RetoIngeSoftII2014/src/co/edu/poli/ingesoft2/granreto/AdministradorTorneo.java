@@ -4,6 +4,7 @@
 package co.edu.poli.ingesoft2.granreto;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,12 +69,21 @@ public class AdministradorTorneo {
 		}
 	}
 	
+	public void imprimirEquiposRegistrados(){
+		System.out.println("*** Equipos Actuales:   ****");
+		for (Equipo equipo : equipos.values()) {
+			System.out.println("\n* " + equipo.getNombre());
+		}
+	}
+	
 	public String generarTablaResultados() throws GranRetoException{
 		//Se generan los resultados de los equipos de acuerdo a los partidos.
 		this.generarResultadosEquipos();
+		this.imprimirEquiposRegistrados();
 		//TODO revisar como ordenar los equipos por puntaje.
+		List<Equipo> ordenados = armador.ordenarEquipos(equipos);
 		String resultados = "**** TABLA DE POSICIONES FINAL **********";
-		for (Equipo e : equipos.values()) {
+		for (Equipo e : ordenados) {
 			resultados+="\n* "+e.getNombre()+","+e.getPuntos()+","+e.getPartidosJugados()+","
 					+e.getPartidosGanados()+","+e.getPartidosEmpatados()+","+e.getPartidosPerdidos()
 					+","+e.getGolesFavor()+","+e.getGolesContra();

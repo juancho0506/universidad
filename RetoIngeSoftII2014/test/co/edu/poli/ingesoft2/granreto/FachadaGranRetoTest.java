@@ -34,7 +34,7 @@ public class FachadaGranRetoTest {
 	 */
 	@Test
 	public void testCargarArchivo() {
-		String rutaArchivo = "files/casoBase.txt";
+		String rutaArchivo = "files/pruebaConApostrofeCaracteresEsp.txt";
 		FachadaGranReto f = new FachadaGranReto();
 		try {
 			f.cargarArchivo(rutaArchivo);
