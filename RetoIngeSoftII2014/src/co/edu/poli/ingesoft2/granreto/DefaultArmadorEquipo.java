@@ -104,7 +104,7 @@ public class DefaultArmadorEquipo implements IArmadorPartido {
 		Equipo mayor = null;
 		if(actuales!=null){
 			if(actuales.size()>0){
-				mayor = actuales.get(0);
+				//mayor = actuales.get(0);
 				for(int i=0;i<actuales.size();i++){
 					if(!ordenados.contains(actuales.get(i))){
 						mayor = actuales.get(i);
@@ -123,6 +123,7 @@ public class DefaultArmadorEquipo implements IArmadorPartido {
 										mayor=actuales.get(j);
 									}else if(actuales.get(j).getPuntos()==mayor.getPuntos()){//Si estan iguales en puntaje hay que desempatar.
 										//se decide el desempate de los equipos..
+										//mayor=actuales.get(j);
 										mayor=this.decidirDesempate(actuales.get(j), mayor);
 									}
 								}								

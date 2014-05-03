@@ -3,10 +3,9 @@
  */
 package co.edu.poli.ingesoft2.granreto;
 
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -14,12 +13,15 @@ import org.junit.Test;
  *
  */
 public class FachadaGranRetoTest {
+	
+	private static FachadaGranReto f;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public static void setUp() throws Exception {
+		f = new FachadaGranReto();
 	}
 
 	/**
@@ -34,8 +36,7 @@ public class FachadaGranRetoTest {
 	 */
 	@Test
 	public void testCargarArchivo() {
-		String rutaArchivo = "files/pruebaConApostrofeCaracteresEsp.txt";
-		FachadaGranReto f = new FachadaGranReto();
+		String rutaArchivo = "files/caso2.txt"; 
 		try {
 			f.cargarArchivo(rutaArchivo);
 		} catch (GranRetoException e) {
@@ -48,7 +49,11 @@ public class FachadaGranRetoTest {
 	 */
 	@Test
 	public void testObtenerTabla() {
-		fail("Not yet implemented");
+		try {
+			System.out.println(f.obtenerTabla());
+		} catch (GranRetoException e) {
+			System.err.println(e.getMessage());
+		}
 	}
 
 }

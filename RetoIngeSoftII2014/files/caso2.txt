@@ -1,0 +1,12 @@
+Equipo 1 
+0 
+Equipo 2 
+3
+Equipo 1 
+1 
+Equipo 3 
+0 
+Equipo 1 
+0 
+Equipo 4 
+1

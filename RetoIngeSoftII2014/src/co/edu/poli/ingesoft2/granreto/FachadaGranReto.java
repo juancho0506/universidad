@@ -42,7 +42,7 @@ public class FachadaGranReto implements IFachadaGranReto {
 			int contPartido = 1;
 			String[] datosPartido = new String[4];
 			while((lineaActual=br.readLine())!=null){
-				System.out.println("Leyendo línea: " + lineaActual);
+				//System.out.println("Leyendo línea: " + lineaActual);
 				//Se quitan los espacios al principio y fin.
 				lineaActual = lineaActual.trim();
 				if(validadorLinea.validarLinea(lineaActual)){
@@ -77,9 +77,7 @@ public class FachadaGranReto implements IFachadaGranReto {
 					throw new GranRetoException("Error al registrar el partido! Ultima línea procesada: "+contLinea);
 				}
 				datosPartido = new String[4];
-			}			
-			
-			System.out.println(this.obtenerTabla());
+			}
 			
 		} catch (IOException e) {
 			throw new GranRetoException("Error de lectura del archivo: "+

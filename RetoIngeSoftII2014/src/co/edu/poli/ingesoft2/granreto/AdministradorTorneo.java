@@ -35,6 +35,11 @@ public class AdministradorTorneo {
 			nuevo.setMarcadorLocal(Integer.parseInt(partido[1]));
 			nuevo.setVisitante(new Equipo(partido[2]));
 			nuevo.setMarcadorVisitante(Integer.parseInt(partido[3]));
+			//Caso en que sea el mismo equipo contra el mismo...
+			if(nuevo.getLocal().getNombre().toLowerCase().equals(nuevo.getVisitante().getNombre().toLowerCase())){ 
+				throw new GranRetoException("Error: Al registrar el partido: "+partido[0]+" vs " + partido[2]+".\n"
+						+"No es válido que un equipo juegue contra el mismo!");
+			}
 		} catch (NumberFormatException e) {
 			throw new GranRetoException("Error al registrar uno de los marcadores para el partido: "+partido[0]+" vs " + partido[2]+".\n"
 					+"Por favor revise si el archivo contenia líneas vacías y los datos quedaron inconsistentes.");
@@ -79,12 +84,12 @@ public class AdministradorTorneo {
 	public String generarTablaResultados() throws GranRetoException{
 		//Se generan los resultados de los equipos de acuerdo a los partidos.
 		this.generarResultadosEquipos();
-		this.imprimirEquiposRegistrados();
+		//this.imprimirEquiposRegistrados();
 		//TODO revisar como ordenar los equipos por puntaje.
 		List<Equipo> ordenados = armador.ordenarEquipos(equipos);
-		String resultados = "**** TABLA DE POSICIONES FINAL **********";
+		String resultados = "";//"**** TABLA DE POSICIONES **********";
 		for (Equipo e : ordenados) {
-			resultados+="\n* "+e.getNombre()+","+e.getPuntos()+","+e.getPartidosJugados()+","
+			resultados+="\n"+e.getNombre().toUpperCase()+","+e.getPuntos()+","+e.getPartidosJugados()+","
 					+e.getPartidosGanados()+","+e.getPartidosEmpatados()+","+e.getPartidosPerdidos()
 					+","+e.getGolesFavor()+","+e.getGolesContra();
 		}
@@ -92,7 +97,7 @@ public class AdministradorTorneo {
 	}
 	
 	private void generarResultadosEquipos() throws GranRetoException{
-		this.imprimirPartidosRegistrados();		
+		//this.imprimirPartidosRegistrados();		
 		//Primero se actualizan los atributos de los equipos con los resultados acumulados.
 		for (Partido p : partidos.values()) {
 			Equipo local = equipos.get(p.getLocal().getNombre().toLowerCase());
