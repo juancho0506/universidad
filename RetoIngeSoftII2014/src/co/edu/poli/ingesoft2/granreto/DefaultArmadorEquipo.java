@@ -118,7 +118,7 @@ public class DefaultArmadorEquipo implements IArmadorPartido {
 								mayor = actuales.get(j);
 							}else{
 								//Si es el mismo equipo no se debe validar nada...
-								if(!(actuales.get(j).getNombre().equals(mayor.getNombre()))){
+								if(!(actuales.get(j).getNombre().toLowerCase().equals(mayor.getNombre().toLowerCase()))){
 									if(actuales.get(j).getPuntos()>mayor.getPuntos()){ //Si es mayor remplace el mayor anterior.
 										mayor=actuales.get(j);
 									}else if(actuales.get(j).getPuntos()==mayor.getPuntos()){//Si estan iguales en puntaje hay que desempatar.
@@ -130,8 +130,16 @@ public class DefaultArmadorEquipo implements IArmadorPartido {
 							}							
 						}
 					}
+					if(!ordenados.contains(mayor)){
+						ordenados.add(mayor);
+					}
 					
-					ordenados.add(mayor);
+				}
+				//Buscar el menor de todos que falta..
+				for (Equipo equipo : actuales) {
+					if(!ordenados.contains(equipo)){
+						ordenados.add(equipo);
+					}
 				}
 			}			
 		}		
