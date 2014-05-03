@@ -39,6 +39,7 @@ public class FachadaGranRetoTest {
 		String rutaArchivo = "files/casoBase.txt"; 
 		try {
 			f.cargarArchivo(rutaArchivo);
+			f.cargarArchivo(rutaArchivo);
 		} catch (GranRetoException e) {
 			System.err.println(e.getMessage());
 		}

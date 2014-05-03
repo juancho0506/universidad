@@ -55,13 +55,30 @@ public class AdministradorTorneo {
 		if(!equipos.containsKey(local.getNombre().toLowerCase())){
 			equipos.put(local.getNombre().toLowerCase(), local);
 		}else{
+			//lógica de actualización del equipo si se corren varios archivos.
+			Equipo temp = equipos.get(local.getNombre().toLowerCase());
+			local.setGolesContra(temp.getGolesContra());
+			local.setGolesFavor(temp.getGolesFavor());
+			local.setPartidosEmpatados(temp.getPartidosEmpatados());
+			local.setPartidosGanados(temp.getPartidosGanados());
+			local.setPartidosJugados(temp.getPartidosJugados());
+			local.setPartidosPerdidos(temp.getPartidosPerdidos());
+			local.setPuntos(temp.getPuntos());
 			equipos.put(local.getNombre().toLowerCase(), local);
 		}
 		
 		if(!equipos.containsKey(visit.getNombre().toLowerCase())){
 			equipos.put(visit.getNombre().toLowerCase(), visit);
 		}else{
-			//TODO: Meter la lógica de actualización del equipo si se corren varios archivos.
+			//lógica de actualización del equipo si se corren varios archivos.
+			Equipo temp = equipos.get(visit.getNombre().toLowerCase());
+			visit.setGolesContra(temp.getGolesContra());
+			visit.setGolesFavor(temp.getGolesFavor());
+			visit.setPartidosEmpatados(temp.getPartidosEmpatados());
+			visit.setPartidosGanados(temp.getPartidosGanados());
+			visit.setPartidosJugados(temp.getPartidosJugados());
+			visit.setPartidosPerdidos(temp.getPartidosPerdidos());
+			visit.setPuntos(temp.getPuntos());
 			equipos.put(visit.getNombre().toLowerCase(), visit);
 		}
 	}
