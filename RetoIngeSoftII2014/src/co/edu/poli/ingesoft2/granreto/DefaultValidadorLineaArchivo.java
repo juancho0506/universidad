@@ -15,7 +15,7 @@ public class DefaultValidadorLineaArchivo implements IValidadorLineaArchivo{
 	private Pattern pattern;
 	private Matcher matcher;
 	
-	private static String VALIDATION_EXPRESSION = "^[a-zA-Z0-9\\s'-]{1,15}$";
+	private static String VALIDATION_EXPRESSION = "^[a-zA-Z0-9\\s'-]{1,1000}$";
 
 	
 	/**
