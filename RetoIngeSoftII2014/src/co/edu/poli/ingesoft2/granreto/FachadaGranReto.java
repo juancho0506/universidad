@@ -54,8 +54,7 @@ public class FachadaGranReto implements IFachadaGranReto {
 							try {
 								administrador.registrarPartido(datosPartido);
 							} catch (GranRetoException e) {
-								throw new GranRetoException("Error al registrar el partido! Ultima línea procesada: "+contLinea+"\n"+
-										"Causa: " + e.getMessage());
+								System.err.println("\nERROR");
 							}
 							datosPartido = new String[4];
 						}
@@ -64,8 +63,8 @@ public class FachadaGranReto implements IFachadaGranReto {
 							datosPartido[contPartido-1] = lineaActual;
 						}
 					}else{
-						throw new GranRetoException("Error de validación en la línea "+contLinea+": "+lineaActual+
-								"\n La línea contiene caracteres inválidos revise nuevamente el archivo.");
+						System.err.println("\nERROR");
+						continue;
 					}
 					
 					contPartido++;
@@ -78,8 +77,7 @@ public class FachadaGranReto implements IFachadaGranReto {
 				try {
 					administrador.registrarPartido(datosPartido);
 				} catch (GranRetoException e) {
-					throw new GranRetoException("Error al registrar el partido! Ultima línea procesada: "+contLinea+"\n"
-							+e.getMessage());
+					System.err.println("\nERROR");
 				}
 				datosPartido = new String[4];
 			}
@@ -94,7 +92,7 @@ public class FachadaGranReto implements IFachadaGranReto {
 				}
 				archivo = null;
 			} catch (IOException ex) {
-				throw new GranRetoException("Error al cerrar el archivo!");
+				System.err.println("\n ERROR de lectura en el Archivo");
 			}
 		}
 		
@@ -105,7 +103,13 @@ public class FachadaGranReto implements IFachadaGranReto {
 	 */
 	@Override
 	public String obtenerTabla() throws GranRetoException {
-		return administrador.generarTablaResultados();
+		String res = "";
+		try {
+			res = administrador.generarTablaResultados();
+		} catch (GranRetoException e) {
+			System.err.println("\nERROR");
+		}
+		return res;
 	}	
 	
 }
