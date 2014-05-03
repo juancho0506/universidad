@@ -45,28 +45,31 @@ public class FachadaGranReto implements IFachadaGranReto {
 				//System.out.println("Leyendo línea: " + lineaActual);
 				//Se quitan los espacios al principio y fin.
 				lineaActual = lineaActual.trim();
-				if(validadorLinea.validarLinea(lineaActual)){
-					//Se verifica la línea para registrar el partido.
-					if(contPartido==5){
-						contPartido = 1;
-						try {
-							administrador.registrarPartido(datosPartido);
-						} catch (GranRetoException e) {
-							throw new GranRetoException("Error al registrar el partido! Ultima línea procesada: "+contLinea+"\n"+
-									"Causa: " + e.getMessage());
+				if(!lineaActual.equals("")){
+					if(validadorLinea.validarLinea(lineaActual)){
+						//Se verifica la línea para registrar el partido.
+						if(contPartido==5){
+							contPartido = 1;
+							try {
+								administrador.registrarPartido(datosPartido);
+							} catch (GranRetoException e) {
+								throw new GranRetoException("Error al registrar el partido! Ultima línea procesada: "+contLinea+"\n"+
+										"Causa: " + e.getMessage());
+							}
+							datosPartido = new String[4];
 						}
-						datosPartido = new String[4];
+						
+						if(armador.validarDatoPosicion(lineaActual, contPartido)){
+							datosPartido[contPartido-1] = lineaActual;
+						}
+					}else{
+						throw new GranRetoException("Error de validación en la línea "+contLinea+": "+lineaActual+
+								"\n La línea contiene caracteres inválidos revise nuevamente el archivo.");
 					}
 					
-					if(armador.validarDatoPosicion(lineaActual, contPartido)){
-						datosPartido[contPartido-1] = lineaActual;
-					}
-				}else{
-					throw new GranRetoException("Error de validación en la línea "+contLinea+": "+lineaActual+
-							"\n La línea contiene caracteres inválidos revise nuevamente el archivo.");
+					contPartido++;
 				}
 				contLinea++;
-				contPartido++;
 			}
 			//Se registra el ultimo partido leido...
 			if(contPartido==5){
@@ -74,7 +77,8 @@ public class FachadaGranReto implements IFachadaGranReto {
 				try {
 					administrador.registrarPartido(datosPartido);
 				} catch (GranRetoException e) {
-					throw new GranRetoException("Error al registrar el partido! Ultima línea procesada: "+contLinea);
+					throw new GranRetoException("Error al registrar el partido! Ultima línea procesada: "+contLinea+"\n"
+							+e.getMessage());
 				}
 				datosPartido = new String[4];
 			}
