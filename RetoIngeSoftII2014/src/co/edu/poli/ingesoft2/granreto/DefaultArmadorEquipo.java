@@ -26,9 +26,14 @@ public class DefaultArmadorEquipo implements IArmadorPartido {
 		Integer temp = null;
 			try {
 				temp = Integer.parseInt(dato);
-				if(temp<0 || temp>15){
-					return false;
+				if(pos==1 || pos==3){
+					return true;
+				}else{
+					if(temp<0 || temp>15){
+						return false;
+					}
 				}
+				
 			} catch (NumberFormatException e) {
 				if(pos==2 || pos==4){//Es una posición para marcador del partido.
 					return false;
