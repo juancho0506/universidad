@@ -45,6 +45,7 @@ public class FachadaGranReto implements IFachadaGranReto {
 				//System.out.println("Leyendo línea: " + lineaActual);
 				//Se quitan los espacios al principio y fin.
 				lineaActual = lineaActual.trim();
+				lineaActual = lineaActual.replaceAll("  ", " ");
 				if(!lineaActual.equals("")){
 					if(validadorLinea.validarLinea(lineaActual)){
 						//Se verifica la línea para registrar el partido.
