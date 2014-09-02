@@ -36,10 +36,13 @@ public class FachadaGranRetoTest {
 	 */
 	@Test
 	public void testCargarArchivo() {
-		String rutaArchivo = "files/casoBase.txt"; 
+		String rutaArchivo = "files/pruebaConEspacios.txt"; 
 		try {
+			Integer a = new Integer(3);
+			Integer b = new Integer(3);
+			System.out.println(a.equals(b));
 			f.cargarArchivo(rutaArchivo);
-			f.cargarArchivo(rutaArchivo);
+			//f.cargarArchivo("files/caso2.txt");
 		} catch (GranRetoException e) {
 			System.err.println(e.getMessage());
 		}
