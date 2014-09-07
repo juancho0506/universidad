@@ -4,8 +4,8 @@
 package co.edu.poli.automatas.proyecto.enums;
 
 /**
- * @author jtorres
- *
+ * @author Luis Castillo
+ * Listado de las operaciones soportadas por la aplicación.
  */
 public enum OperadorLogicoEnum {
 	
