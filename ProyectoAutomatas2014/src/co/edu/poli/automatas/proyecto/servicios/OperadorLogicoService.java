@@ -121,7 +121,7 @@ public class OperadorLogicoService {
 	 */
 	public boolean evaluateConditional(boolean p1, boolean p2){
 		
-		if(!p2){
+		if(p1 &&!p2){
 			return false;
 		}else{
 			return true;
@@ -135,10 +135,10 @@ public class OperadorLogicoService {
 	 * @return
 	 */
 	public boolean evaluateXOR(boolean p1, boolean p2){
-		if(p1){
+		if(p1 && !p2){
 			return true;
 		}
-		else if(p2){
+		else if(p2 && !p1){
 			return true;
 		}
 		return false;
@@ -166,7 +166,7 @@ public class OperadorLogicoService {
 	 * @return
 	 */
 	public boolean evaluateReciproca(boolean p1, boolean p2){
-		if(!p1){
+		if(!p1 && p2){
 			return false;
 		}else{
 			return true;
@@ -180,7 +180,7 @@ public class OperadorLogicoService {
 	 * @return
 	 */
 	public boolean evaluateContrareciproca(boolean p1, boolean p2){
-		if(p1){
+		if(p1 && !p2){
 			return false;
 		}else{
 			return true;
@@ -194,7 +194,7 @@ public class OperadorLogicoService {
 	 * @return
 	 */
 	public boolean evaluateInversaCond(boolean p1, boolean p2){
-		if(p2){
+		if(p2 && !p1){
 			return false;
 		}else{
 			return true;
