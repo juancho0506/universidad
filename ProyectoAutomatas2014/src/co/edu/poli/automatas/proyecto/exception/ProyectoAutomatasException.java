@@ -14,4 +14,11 @@ public class ProyectoAutomatasException extends Exception {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @param arg0
+	 */
+	public ProyectoAutomatasException(String arg0) {
+		super(arg0);
+	}
+
 }
