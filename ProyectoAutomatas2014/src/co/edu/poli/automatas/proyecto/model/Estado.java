@@ -11,7 +11,7 @@ public class Estado {
 	
 	private int numEstado;
 	
-	boolean estadoFinal;
+	boolean estadoFinal = false;
 
 	/**
 	 * @return the numEstado
@@ -39,5 +39,19 @@ public class Estado {
 	 */
 	public void setEstadoFinal(boolean estadoFinal) {
 		this.estadoFinal = estadoFinal;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if(obj != null && obj instanceof Estado){
+			Estado temp = (Estado) obj;
+			if(temp.getNumEstado() == this.getNumEstado()){
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -32,7 +32,7 @@ public class AutomataMain {
 	/** Cantidad de consultas a realizar, Numero Q del archivo **/
 	private static int numConsultas = 0;
 	/** Matriz de estados del automata **/
-	private static String matrizEstados[][];
+	private static Estado matrizEstados[][];
 	private static List<Estado> estadosFinales = new ArrayList<Estado>();
 	private static List<String> alfabeto = new ArrayList<String>();
 	private static List<String> consultas = new ArrayList<String>();
@@ -52,6 +52,13 @@ public class AutomataMain {
 					leerArchivo("files/test1.txt");
 					System.out.println("* Termina la carga del archivo!");
 					imprimirLecturaArchivo();
+					if(opcion.equals("1")){
+						System.out.println("* Evaluando consultas automata, modo: SENCILLO");
+						modoEvaluarSencillo();
+					}else{
+						System.out.println("* Evaluando consultas automata, modo: PASO A PASO");
+						modoEvaluarPasoPaso();
+					}
 				} catch (InvalidArgumentException e) {
 					System.err.println(e.getMessage());
 				} catch (ProyectoAutomatasException e) {
@@ -65,6 +72,13 @@ public class AutomataMain {
 		}
 	}
 
+
+	/**
+	 * Carga los datos del archivo para inicializar el automata.
+	 * @param path
+	 * @throws InvalidArgumentException
+	 * @throws ProyectoAutomatasException
+	 */
 	private static void leerArchivo(String path) throws InvalidArgumentException, ProyectoAutomatasException{
 		
 		BufferedReader br = null;
@@ -102,11 +116,11 @@ public class AutomataMain {
 									//Paso 2: Se lee la matriz y los datos que van después de ella.
 									if(contLinea == 3){
 										lineaFinalMatriz = contLinea+numEstados;
-										matrizEstados = new String[numEstados][numAlfabeto];
+										matrizEstados = new Estado[numEstados][numAlfabeto];
 										llenarMatrizEstados(filaActualmatriz, datosLinea);
 										filaActualmatriz++;
 									}
-									if(contLinea>3 && contLinea<lineaFinalMatriz){//Termino de llenar la matriz
+									else if(contLinea>3 && contLinea<lineaFinalMatriz){//Termino de llenar la matriz
 										llenarMatrizEstados(filaActualmatriz, datosLinea);
 										filaActualmatriz++;
 									}else{//si termino de leer la matriz puedo leer las lineas finales.
@@ -189,10 +203,14 @@ public class AutomataMain {
 	private static void llenarMatrizEstados(int filaActualmatriz, String[] datosLinea)throws ProyectoAutomatasException{
 		try {
 			for(int i=0; i<numAlfabeto; i++){
-				matrizEstados[filaActualmatriz][i] = datosLinea[i];
+				Estado temp = new Estado();
+				temp.setNumEstado(Integer.parseInt(datosLinea[i]));
+				matrizEstados[filaActualmatriz][i] = temp;
 			}
 		} catch (ArrayIndexOutOfBoundsException e){
-			throw new ProyectoAutomatasException("\n ERROR: No se puede construir la matriz de estados: "+datosLinea+"\n"+e.getMessage());
+			throw new ProyectoAutomatasException("\n ERROR: No se puede construir la matriz de estados en la línea: "+filaActualmatriz+" de la matriz\n"+e.getMessage());
+		}catch (NumberFormatException e) {
+			throw new ProyectoAutomatasException("\n ERROR: Debe ingresar solo números para la línea: "+filaActualmatriz+" de la matriz.\n"+e.getMessage());
 		}
 	}
 	
@@ -209,6 +227,9 @@ public class AutomataMain {
 					temp.setNumEstado(Integer.parseInt(datosLinea[i]));
 					estadosFinales.add(temp);
 				}
+				if(estadosFinales.size()>0){
+					marcarMatrizEstadosConFinales();
+				}
 			}else if(contLinea == lineaFinalMatriz+2){
 				numConsultas = Integer.parseInt(datosLinea[0]);
 			}else{
@@ -224,32 +245,124 @@ public class AutomataMain {
 		}
 	}
 	
+	/**
+	 * Marca los estados finales de la matriz, 
+	 * esto debido a que se carga primero la matriz en el archivo y 
+	 * luego se cargan los estados finales.
+	 */
+	private static void marcarMatrizEstadosConFinales() {
+		for (int i = 0; i < numEstados; i++) {
+			for (int j = 0; j < numAlfabeto; j++) {
+				Estado temp = matrizEstados[i][j];
+				if(estadosFinales.contains(temp)){
+					temp.setEstadoFinal(true);
+				}
+			}
+		}		
+	}
+
+	/**
+	 * Imprime los datos cargados en el archivo.
+	 * @throws ProyectoAutomatasException
+	 */
 	private static void imprimirLecturaArchivo()throws ProyectoAutomatasException{
 		try {
 			System.out.println("**** Automata Cargado ********");
 			System.out.println("* N: "+numEstados);
 			System.out.println("* Z: "+numAlfabeto);
+			System.out.println("* Alfabeto: ");
+			for (String a : alfabeto) {
+				System.out.print(""+a);
+			}
+			System.out.println("");
 			System.out.println("* Matriz cargada: ");
 			for(int i=0; i < numEstados; i++) {
-				System.out.println("|");
 				for (int j = 0; j < numAlfabeto; j++) {
-					System.out.println(""+matrizEstados[i][j]+"|");
+					System.out.print("|"+matrizEstados[i][j].getNumEstado()+"|");
 				}
-				System.out.println("| \n");
+				System.out.println("");
 			}
 			System.out.println("* F: "+numEstadosFinales);
 			System.out.println("* Estados finales: ");
 			for (Estado estado : estadosFinales) {
-				System.out.println(""+estado.getNumEstado());
+				System.out.print(""+estado.getNumEstado());
 			}
+			System.out.println("");
 			System.out.println("* Q: "+numConsultas);
 			System.out.println("* Consultas a realizar: ");
 			for (String c : consultas) {
 				System.out.println(""+c);
 			}
 		} catch (Exception e) {
-			throw new ProyectoAutomatasException("\n ERROR: Al imprimir los datos leidos del archivo: "+e.getMessage()+"\n"+e.getMessage());
+			throw new ProyectoAutomatasException("\n ERROR: Al imprimir los datos leidos del archivo: \n"+e.getMessage());
 		}
 		
+	}
+	
+	/**
+	 * Modo sencillo de evaluar las consultas...
+	 */
+	private static void modoEvaluarSencillo() throws ProyectoAutomatasException{
+		System.out.println("Resultado:");
+		try {
+			for (String cons : consultas) {
+				System.out.println("Consulta:"+cons);
+				char[] alfabeto= cons.toCharArray();
+				//Estado inicial
+				Estado actual = new Estado();
+				actual.setNumEstado(0);
+				for (char c : alfabeto) {
+					String transicion = new String(new char[]{c});
+					actual = leerConsulta(transicion, actual);
+				}
+				if(actual!=null){
+					System.out.println("Acepta? : "+(actual.isEstadoFinal()?"SI":"NO"));
+				}
+			}
+		} catch (Exception e) {
+			throw new ProyectoAutomatasException("\n ERROR: Error al ejecutar el modo sencillo: \n"+e.getMessage());
+		}
+	}
+	
+	/**
+	 * Retorna el estado de evaluar la entrada con el estado actual evaluado previamente en la matriz.
+	 * @param transicion
+	 * @param actual
+	 * @return
+	 */
+	private static Estado leerConsulta(String transicion, Estado actual) {
+		int pos = alfabeto.indexOf(transicion);
+		//System.out.println("posicion de :"+transicion+"-"+pos);
+		Estado res = matrizEstados[actual.getNumEstado()][pos];
+		return res;
+	}
+	
+	/**
+	 * Modo paso a paso de evaluar las consultas...
+	 */
+	private static void modoEvaluarPasoPaso() throws ProyectoAutomatasException{
+		System.out.println("Resultado:");
+		try {
+			for (String cons : consultas) {
+				System.out.println("Consulta:"+cons);
+				char[] alfabeto= cons.toCharArray();
+				//Estado inicial
+				Estado actual = new Estado();
+				actual.setNumEstado(0);
+				for (char c : alfabeto) {
+					String transicion = new String(new char[]{c});
+					String message = "* Del estado: "+actual.getNumEstado()+" procesando el símbolo "+transicion+" ";
+					actual = leerConsulta(transicion, actual);
+					message+="paso al estado "+actual.getNumEstado();
+					System.out.println(message);
+				}
+				if(actual!=null){
+					System.out.println("La palabra "+(actual.isEstadoFinal()?"SI":"NO")+
+							" fue aceptada, el estado "+actual.getNumEstado()+(actual.isEstadoFinal()?"":" NO ")+" es estado de aceptación.");
+				}
+			}
+		} catch (Exception e) {
+			throw new ProyectoAutomatasException("\n ERROR: Error al ejecutar el modo sencillo: \n"+e.getMessage());
+		}
 	}
 }

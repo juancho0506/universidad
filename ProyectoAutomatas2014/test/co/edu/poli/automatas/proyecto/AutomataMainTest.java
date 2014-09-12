@@ -37,7 +37,7 @@ public class AutomataMainTest {
 	 */
 	@Test
 	public void testMain() {
-		main.main(new String[]{"1"});
+		main.main(new String[]{"2"});
 	}
 
 }
