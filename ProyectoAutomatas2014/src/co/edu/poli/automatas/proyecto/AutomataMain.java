@@ -32,7 +32,7 @@ public class AutomataMain {
 	/** Cantidad de consultas a realizar, Numero Q del archivo **/
 	private static int numConsultas = 0;
 	/** Matriz de estados del automata **/
-	private static int matrizEstados[][];
+	private static String matrizEstados[][];
 	private static List<Estado> estadosFinales = new ArrayList<Estado>();
 	private static List<String> alfabeto = new ArrayList<String>();
 	private static List<String> consultas = new ArrayList<String>();
@@ -47,7 +47,11 @@ public class AutomataMain {
 			if(args.length>0){
 				String opcion = args[0];
 				try {
-					leerArchivo("");
+					System.out.println("****** Lectura de Automata desde Archivo ***************");
+					System.out.println("* Leyendo archivo .......");
+					leerArchivo("files/test1.txt");
+					System.out.println("* Termina la carga del archivo!");
+					imprimirLecturaArchivo();
 				} catch (InvalidArgumentException e) {
 					System.err.println(e.getMessage());
 				} catch (ProyectoAutomatasException e) {
@@ -76,9 +80,8 @@ public class AutomataMain {
 			br = new BufferedReader(new FileReader(archivo));
 			//Se recorre las líneas del archivo..
 			int contLinea = 1;
-			int contPartido = 1;
+			int filaActualmatriz = 0;
 			int lineaFinalMatriz = 0;
-			String[] datosPartido = new String[4];
 			while((lineaActual=br.readLine())!=null){
 				//System.out.println("Leyendo línea: " + lineaActual);
 				//Se quitan los espacios al principio y fin.
@@ -99,12 +102,15 @@ public class AutomataMain {
 									//Paso 2: Se lee la matriz y los datos que van después de ella.
 									if(contLinea == 3){
 										lineaFinalMatriz = contLinea+numEstados;
-										//TODO: Metodo para llenar la matriz
+										matrizEstados = new String[numEstados][numAlfabeto];
+										llenarMatrizEstados(filaActualmatriz, datosLinea);
+										filaActualmatriz++;
 									}
-									if(contLinea==lineaFinalMatriz){//si termino de leer la matriz puedo leer las lineas finales.
-										
-									}else{
-										
+									if(contLinea>3 && contLinea<lineaFinalMatriz){//Termino de llenar la matriz
+										llenarMatrizEstados(filaActualmatriz, datosLinea);
+										filaActualmatriz++;
+									}else{//si termino de leer la matriz puedo leer las lineas finales.
+										extraerDatosFinalesLinea(datosLinea, contLinea, lineaFinalMatriz);
 									}
 								}
 								
@@ -118,8 +124,6 @@ public class AutomataMain {
 					}else{
 						throw new ProyectoAutomatasException("\nERROR: Datos inválidos en la línea: "+lineaActual);
 					}
-					
-					contPartido++;
 				}else{
 					throw new ProyectoAutomatasException("\nERROR: No hay datos en la línea: "+contLinea);
 				}
@@ -158,10 +162,10 @@ public class AutomataMain {
 			try {
 				numAlfabeto = Integer.parseInt(datosLinea[0]);
 				numEstados = Integer.parseInt(datosLinea[1]);
-			} catch (NumberFormatException e) {
-				throw new ProyectoAutomatasException("\n ERROR: Debe ingresar solo números para la línea: "+contLinea);
+			}catch (NumberFormatException e) {
+				throw new ProyectoAutomatasException("\n ERROR: Debe ingresar solo números para la línea: "+contLinea+"\n"+e.getMessage());
 			}catch (ArrayIndexOutOfBoundsException e){
-				throw new ProyectoAutomatasException("\n ERROR: Faltan datos para procesar la línea: "+contLinea);
+				throw new ProyectoAutomatasException("\n ERROR: Faltan datos para procesar la línea: "+contLinea+"\n"+e.getMessage());
 			}
 			
 		}else{//Se leen los simbolos del alfabeto.
@@ -171,9 +175,81 @@ public class AutomataMain {
 					alfabeto.add(datosLinea[i]);
 				}
 			}catch (ArrayIndexOutOfBoundsException e){
-				throw new ProyectoAutomatasException("\n ERROR: Faltan datos para procesar la línea: "+contLinea);
+				throw new ProyectoAutomatasException("\n ERROR: Faltan datos para procesar la línea: "+contLinea+"\n"+e.getMessage());
 			}
 			
 		}
+	}
+	
+	/**
+	 * Llena una fila de la matriz de estados dada la fila actual en el contador
+	 * del lector de archivos.
+	 * @param filaActualmatriz
+	 */
+	private static void llenarMatrizEstados(int filaActualmatriz, String[] datosLinea)throws ProyectoAutomatasException{
+		try {
+			for(int i=0; i<numAlfabeto; i++){
+				matrizEstados[filaActualmatriz][i] = datosLinea[i];
+			}
+		} catch (ArrayIndexOutOfBoundsException e){
+			throw new ProyectoAutomatasException("\n ERROR: No se puede construir la matriz de estados: "+datosLinea+"\n"+e.getMessage());
+		}
+	}
+	
+	private static void extraerDatosFinalesLinea(String[] datosLinea, int contLinea, int lineaFinalMatriz) throws ProyectoAutomatasException{
+		try {
+			
+			if(contLinea==lineaFinalMatriz){
+				numEstadosFinales = Integer.parseInt(datosLinea[0]);
+			}else if(contLinea == lineaFinalMatriz+1){
+				estadosFinales = new ArrayList<Estado>(numEstadosFinales);
+				for(int i=0; i < numEstadosFinales; i++){
+					Estado temp = new Estado();
+					temp.setEstadoFinal(true);
+					temp.setNumEstado(Integer.parseInt(datosLinea[i]));
+					estadosFinales.add(temp);
+				}
+			}else if(contLinea == lineaFinalMatriz+2){
+				numConsultas = Integer.parseInt(datosLinea[0]);
+			}else{
+				//se leen las consultas
+				consultas.add(datosLinea[0]);
+				
+			}
+			
+		}catch (NumberFormatException e) {
+			throw new ProyectoAutomatasException("\n ERROR: Debe ingresar solo números para la línea: "+contLinea+"\n"+e.getMessage());
+		}catch (ArrayIndexOutOfBoundsException e){
+			throw new ProyectoAutomatasException("\n ERROR: Faltan datos para procesar la línea: "+contLinea+"\n"+e.getMessage());
+		}
+	}
+	
+	private static void imprimirLecturaArchivo()throws ProyectoAutomatasException{
+		try {
+			System.out.println("**** Automata Cargado ********");
+			System.out.println("* N: "+numEstados);
+			System.out.println("* Z: "+numAlfabeto);
+			System.out.println("* Matriz cargada: ");
+			for(int i=0; i < numEstados; i++) {
+				System.out.println("|");
+				for (int j = 0; j < numAlfabeto; j++) {
+					System.out.println(""+matrizEstados[i][j]+"|");
+				}
+				System.out.println("| \n");
+			}
+			System.out.println("* F: "+numEstadosFinales);
+			System.out.println("* Estados finales: ");
+			for (Estado estado : estadosFinales) {
+				System.out.println(""+estado.getNumEstado());
+			}
+			System.out.println("* Q: "+numConsultas);
+			System.out.println("* Consultas a realizar: ");
+			for (String c : consultas) {
+				System.out.println(""+c);
+			}
+		} catch (Exception e) {
+			throw new ProyectoAutomatasException("\n ERROR: Al imprimir los datos leidos del archivo: "+e.getMessage()+"\n"+e.getMessage());
+		}
+		
 	}
 }

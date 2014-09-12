@@ -4,7 +4,7 @@
 package co.edu.poli.automatas.proyecto.model;
 
 /**
- * @author Rodrigo
+ * @author Luis Castillo
  * Clase 
  */
 public class Estado {

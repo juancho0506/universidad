@@ -4,7 +4,7 @@
 package co.edu.poli.automatas.proyecto.exception;
 
 /**
- * @author Rodrigo
+ * @author Luis Castillo
  *
  */
 public class InvalidArgumentException extends Exception {
