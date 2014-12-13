@@ -37,6 +37,7 @@ public class AutomataMain {
 	private static List<String> alfabeto = new ArrayList<String>();
 	private static List<String> consultas = new ArrayList<String>();
 	
+	
 	/**
 	 * @param args
 	 */

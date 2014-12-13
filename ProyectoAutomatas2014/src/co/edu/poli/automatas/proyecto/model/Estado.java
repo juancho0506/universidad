@@ -5,11 +5,13 @@ package co.edu.poli.automatas.proyecto.model;
 
 /**
  * @author Luis Castillo
- * Clase 
+ * Clase que representa un estado del automata.
  */
 public class Estado {
 	
 	private int numEstado;
+	
+	private String nombre = "";
 	
 	boolean estadoFinal = false;
 
@@ -25,6 +27,21 @@ public class Estado {
 	 */
 	public void setNumEstado(int numEstado) {
 		this.numEstado = numEstado;
+	}
+	
+
+	/**
+	 * @return the nombre
+	 */
+	public String getNombre() {
+		return nombre;
+	}
+
+	/**
+	 * @param nombre the nombre to set
+	 */
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	/**
